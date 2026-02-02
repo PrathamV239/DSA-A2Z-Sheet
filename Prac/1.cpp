@@ -1,46 +1,59 @@
-#include <iostream>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
+class Solution {
+public:
+    
+    void merge(vector<int>& arr, int low, int mid, int high) {
+       
+        vector<int> temp;
+        int left = low, right = mid + 1;
 
-void SelectionSort(vector<int> &nums, int n){
+        
+        while (left <= mid && right <= high) {
+            if (arr[left] <= arr[right])
+                temp.push_back(arr[left++]);
+            else
+                temp.push_back(arr[right++]);
+        }
 
-for (int i = 0; i < n-1; i++){
+      
+        while (left <= mid)
+            temp.push_back(arr[left++]);
 
-  int mini = i;
-  for (int j = i+1; j < n; j++){
-    if (nums [mini]> nums[j]){
-      mini = j;
+      
+        while (right <= high)
+            temp.push_back(arr[right++]);
+
+        // Copy sorted elements back to original array
+        for (int i = low; i <= high; i++)
+            arr[i] = temp[i - low];
     }
+    
+    void mergeSort(vector<int>& arr, int low, int high) {
+        if (low >= high)
+            return;
 
-  }
-  if (nums[mini] != i){
-    swap(nums[mini], nums[i]);
-  }
+       
+        int mid = (low + high) / 2;
 
-}
-cout << "The array after sorting:\n";
-for (int i = 0; i < n; i++){
-cout << nums[i]<< " ";
-}
-cout <<"\n";
-}
+        
+        mergeSort(arr, low, mid);
 
+        
+        mergeSort(arr, mid + 1, high);
 
+       
+        merge(arr, low, mid, high);
+    }
+};
 
-int main (){
-
-vector <int> nums = {13,46,24,54,67,9};
-
-int n = nums.size();
-
-cout <<"The array before Sorting: \n";
-for (int i = 0; i < n; i++){
-cout << nums[i]<< " ";
-}
-cout <<"\n";
-
-SelectionSort(nums,n);
-
+int main() {
+    vector<int> arr = {5, 2, 8, 4, 1};
+    Solution sol;
+    sol.mergeSort(arr, 0, arr.size() - 1);
+    for (int x : arr)
+        cout << x << " ";
+    cout << endl;
+    return 0;
 }
