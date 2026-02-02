@@ -1,51 +1,41 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-class BubbleSort
-{
-public:
-  void bubble_sort(vector<int> &arr)
-  {
-    int n = arr.size();
-    for (int i = n - 1; i >= 0; i--)
-    {
-      int didSwap = 0;
-      for (int j = 0; j <= i - 1; j++)
-      {
-        if (arr[j] > arr[j + 1])
-        {
-          swap(arr[j], arr[j + 1]);
-          didSwap = 1;
-        }
-      }
-      if (didSwap == 0)
-      {
-        break;
-      }
-    }
+void BubbleSort(vector <int>&nums, int n){
+  
+for (int i = n-1; i >=0; i--){
 
-    cout << "After Using Bubble Sort:\n";
-    for (int num : arr)
+  int didSwap = 0;
+  for (int j = 0; j <= i-1; j++){
+    if (nums[j] > nums[j+1])
     {
-      cout << num << " ";
+      swap(nums[j], nums[j+1]);
+      didSwap =1;
     }
-    cout << endl;
   }
-};
+if (didSwap == 0) break;
+}
 
-int main()
-{
-  vector<int> arr = {13, 46, 24, 52, 20, 9};
+cout << "After Sorting: \n";
+for (int i = 0; i<n; i++){
+  cout<< nums[i]<< " ";
+}
+cout << endl;
+}
 
-  cout << "Before Using Bubble Sort:\n";
-  for (int num : arr)
-  {
-    cout << num << " ";
+
+
+int main (){
+  vector <int> nums = {13,34,24,5,6,78,9};
+  int n = nums.size();
+  
+  cout<<"Before Sort: \n";
+  for (int i = 0; i <n ; i++){
+    cout<<nums[i]<<" ";
   }
   cout << endl;
 
-  BubbleSort sorter;
-  sorter.bubble_sort(arr);
-
-  return 0;
+BubbleSort(nums, n);
 }

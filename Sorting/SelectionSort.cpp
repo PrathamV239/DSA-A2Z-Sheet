@@ -1,30 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void SelectionSort(vector <int>&nums, int n){
+ void SelectionSort(vector<int>& nums, int n ) {
+   
 
-  for(int i=0; i< n-1; i++){
-
-    int mini = i;
-    for (int j = i+1; j<n; j++){
-      if (nums[mini] > nums[j]){
-        mini = j ;
-      }
+    for (int i = 0; i < n - 1; i++) {
+        int mini = i;
+        for (int j = i + 1; j < n; j++) {
+            if (nums[j] < nums[mini]) {
+                mini = j;
+            }
+        }
+        if (mini != i) {
+            swap(nums[i], nums[mini]);
+        }
     }
-      int temp = nums [mini];
-      nums[mini] = nums [i];
-      nums[i] = temp ;
-    
-
-  }
+ 
   cout << "After selection sort: \n";
   for(int i =0; i<n;i++){
     cout << nums[i] << " ";
   }
   cout << "\n";
 
+ }
 
-}
 
 
 int main(){
@@ -41,7 +40,7 @@ int main(){
     cout << "\n";
 
 
-    SelectionSort(arr, n);
+    SelectionSort(arr,n);
 
     return 0;
 
