@@ -1,59 +1,48 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <queue>
 using namespace std;
 
-class Solution {
-public:
+class Stack {
+private:
+    queue<int> q;
     
-    void merge(vector<int>& arr, int low, int mid, int high) {
-       
-        vector<int> temp;
-        int left = low, right = mid + 1;
-
+public:
+    void push(int x) {
+        int size = q.size();
+        q.push(x);
         
-        while (left <= mid && right <= high) {
-            if (arr[left] <= arr[right])
-                temp.push_back(arr[left++]);
-            else
-                temp.push_back(arr[right++]);
+        // Move all old elements behind the new element
+        for (int i = 0; i < size; i++) {
+            q.push(q.front());
+            q.pop();
         }
-
-      
-        while (left <= mid)
-            temp.push_back(arr[left++]);
-
-      
-        while (right <= high)
-            temp.push_back(arr[right++]);
-
-        // Copy sorted elements back to original array
-        for (int i = low; i <= high; i++)
-            arr[i] = temp[i - low];
     }
     
-    void mergeSort(vector<int>& arr, int low, int high) {
-        if (low >= high)
-            return;
-
-       
-        int mid = (low + high) / 2;
-
-        
-        mergeSort(arr, low, mid);
-
-        
-        mergeSort(arr, mid + 1, high);
-
-       
-        merge(arr, low, mid, high);
+    int pop() {
+        int top = q.front();
+        q.pop();
+        return top;
+    }
+    
+    int top() {
+        return q.front();
+    }
+    
+    bool isEmpty() {
+        return q.empty();
     }
 };
 
 int main() {
-    vector<int> arr = {5, 2, 8, 4, 1};
-    Solution sol;
-    sol.mergeSort(arr, 0, arr.size() - 1);
-    for (int x : arr)
-        cout << x << " ";
-    cout << endl;
+    Stack st;
+    
+    st.push(4);
+    st.push(8);
+    
+    cout << "Top: " << st.top() << endl;     // 8
+    cout << "Pop: " << st.pop() << endl;     // 8
+    cout << "Top: " << st.top() << endl;     // 4
+    cout << "Empty? " << st.isEmpty() << endl; // false
+    
     return 0;
 }
