@@ -1,84 +1,65 @@
-#include <bits/stdc++.h>
+#include <iostream>
+
 using namespace std;
 
-class ArrayStack {
+class Stack{
+
 private:
-    // Array to hold elements
-    int* stackArray;
-    // Maximum capacity
-    int capacity; 
-     // Index of top element  
-    int topIndex;   
+    int* arr;
+    int capacity;
+    int topIndex;
 
-public:
-    // Constructor
-    ArrayStack(int size = 1000) {
-        capacity = size;
-        stackArray = new int[capacity];
-        // Initialize stack as empty
-        topIndex = -1; 
+public: 
+    Stack(int size = 1000){
+    int capacity = size;
+    arr = new int[capacity];
+    topIndex = -1;
+}
+
+    ~Stack(){
+        delete []arr;
     }
 
-    // Destructor
-    ~ArrayStack() {
-        delete[] stackArray;
-    }
-
-    // Pushes element x 
-    void push(int x) {
-        if (topIndex >= capacity - 1) {
-            cout << "Stack overflow" << endl;
+    void push (int x){
+        if(topIndex >= capacity-1){
+            cout<< "Stack Overflow\n";
             return;
         }
-        stackArray[++topIndex] = x;
+        arr[++topIndex] = x;
     }
 
-    // Removes and returns top element
-    int pop() {
-        if (isEmpty()) {
-            cout << "Stack is empty" << endl;
-            // Return invalid value
-            return -1; 
+    int pop(){
+        if (isEmpty()){
+            cout<<"Stack underflow\n";
+            return -1;
         }
-        return stackArray[topIndex--];
+        return arr[topIndex--];
     }
 
-    // Returns top element
-    int top() {
-        if (isEmpty()) {
-            cout << "Stack is empty" << endl;
-            return -1; 
+    int top(){
+        if(isEmpty()){
+            cout<< "Stack Underflow\n";
+            return -1;
         }
-        return stackArray[topIndex];
+        return arr[topIndex];
     }
-
-   /* Returns true if the 
-   stack is empty, false otherwise*/
-    bool isEmpty() {
+    bool isEmpty(){
         return topIndex == -1;
     }
 };
 
-// Main Function
-int main() {
-    ArrayStack stack;
-    vector<string> commands = {"ArrayStack", "push", "push", "top", "pop", "isEmpty"};
-    vector<vector<int>> inputs = {{}, {5}, {10}, {}, {}, {}};
 
-    for (size_t i = 0; i < commands.size(); ++i) {
-        if (commands[i] == "push") {
-            stack.push(inputs[i][0]);
-            cout << "null ";
-        } else if (commands[i] == "pop") {
-            cout << stack.pop() << " ";
-        } else if (commands[i] == "top") {
-            cout << stack.top() << " ";
-        } else if (commands[i] == "isEmpty") {
-            cout << (stack.isEmpty() ? "true" : "false") << " ";
-        } else if (commands[i] == "ArrayStack") {
-            cout << "null ";
-        }
-    }
+int main (){
+    Stack s;
+    s.push(10);
+    s.push(30);
+    s.push(40);
 
+    cout << "Top: " << s.top() << endl;    
+    cout << "Pop: " << s.pop() << endl;     
+    cout << "Top: " << s.top() << endl;     
+    cout << "Empty? " << s.isEmpty() << endl; 
+    
     return 0;
+
 }

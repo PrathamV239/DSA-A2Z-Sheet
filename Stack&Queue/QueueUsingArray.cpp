@@ -1,106 +1,93 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-// Class implementing Queue using Arrays
-class ArrayQueue {
-    // Array to store queue elements
-    int* arr;
-    // Indices for start and end of the queue
-    int start, end;
-    // Current size and maximum size of the queue
-    int currSize, maxSize;
+class Queue{
 
-public:
-    // Constructor
-    ArrayQueue() {
-        arr = new int[10];
-        start = -1;
-        end = -1;
+    private :
+        int* arr;
+        int currSize, maxSize;
+        int front, rear;
+
+
+    public:
+
+    Queue(int size = 10){
+        maxSize = size;
+        arr = new int [maxSize];
+        front = -1;
+        rear = -1 ;
         currSize = 0;
-        maxSize = 10;
     }
 
-    // Method to push an element into the queue
-    void push(int x) {
-        // Check if the queue is full
-        if (currSize == maxSize) {
-            cout << "Queue is full\nExiting..." << endl;
-            exit(1);
+    ~Queue(){
+        delete [] arr;
+    }
+
+    void push (int x){
+        if (currSize == maxSize){
+            cout << "Queue is full\n";
+            return;
         }
-        
-        // If the queue is empty, initialize start and end
-        if (end == -1) {
-            start = 0;
-            end = 0;
-        } 
+        if (rear == -1){
+            front = rear = 0;
+        }
         else {
-            // Circular increment of end
-            end = (end + 1) % maxSize;
+            rear = (rear +1) % maxSize;
         }
-            
-        arr[end] = x;
         currSize++;
+        arr[rear] = x;
+
     }
 
-    // Method to pop an element from the queue
-    int pop() {
-        // Check if the queue is empty
-        if (start == -1) {
-            cout << "Queue Empty\nExiting..." << endl;
-            exit(1);
+
+    int pop(){
+        if(front == -1){
+            cout << " Queue is empty\n";
+            return -1;
         }
-        int popped = arr[start];
-        
-        // If the queue has only one element, reset start and end
-        if (currSize == 1) {
-            start = -1;
-            end = -1;
+        int popped = arr[front];
+        if(currSize == 1){
+            front = rear = -1;
         }
         else {
-            // Circular increment of start
-            start = (start + 1) % maxSize;
+            front = (front + 1) % maxSize;
         }
-        
-        currSize--;
+
+        currSize --;
         return popped;
+        
     }
 
-    // Method to get the front element of the queue
-    int peek() {
-        // Check if the queue is empty
-        if (start == -1) {
-            cout << "Queue is Empty" << endl;
-            exit(1);
+    int peek(){
+        if (front == -1){
+            cout << "Queue is empty\n";
+            return -1;
         }
-        return arr[start];
+        return arr[front];
     }
 
-    // Method to determine whether the queue is empty
-    bool isEmpty() {
-        return (currSize == 0);
+    bool isEmpty(){
+        return currSize ==0;
     }
+
+
 };
 
-int main() {
-    ArrayQueue queue;
-    vector<string> commands = {"ArrayQueue", "push", "push", 
-                               "peek", "pop", "isEmpty"};
-    vector<vector<int>> inputs = {{}, {5}, {10}, {}, {}, {}};
 
-    for (int i = 0; i < commands.size(); ++i) {
-        if (commands[i] == "push") {
-            queue.push(inputs[i][0]);
-            cout << "null ";
-        } else if (commands[i] == "pop") {
-            cout << queue.pop() << " ";
-        } else if (commands[i] == "peek") {
-            cout << queue.peek() << " ";
-        } else if (commands[i] == "isEmpty") {
-            cout << (queue.isEmpty() ? "true" : "false") << " ";
-        } else if (commands[i] == "ArrayQueue") {
-            cout << "null ";
-        }
-    }
+int main (){
 
+
+     Queue q;
+    
+    q.push(10);
+    q.push(20);
+    q.push(30);
+    
+    cout << "Front: " << q.peek() << endl;      // 10
+    cout << "Pop: " << q.pop() << endl;         // 10
+    cout << "Front: " << q.peek() << endl;      // 20
+
+    cout << "Empty? " << q.isEmpty() << endl;   // false
+    
     return 0;
 }
