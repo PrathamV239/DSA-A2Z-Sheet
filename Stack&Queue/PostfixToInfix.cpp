@@ -20,9 +20,9 @@ for (int i =0; i< n; i++ ){
   }
 
   else {
-   string op1 = st.top();
+   string op2 = st.top();
     st.pop();
-    string op2 = st.top();
+    string op1 = st.top();
     st.pop();
 
     st.push("(" + op1+ c+ op2 + ')');

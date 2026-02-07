@@ -1,65 +1,42 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-// Function to return precedence of operators
-int prec(char c) {
-    if (c == '^')  // Exponent operator has highest precedence
-        return 3;
-    else if (c == '/' || c == '*')  // Multiplication and division have higher precedence than addition
-        return 2;
-    else if (c == '+' || c == '-')  // Addition and subtraction have lowest precedence
-        return 1;
-    else
-        return -1;
-}
+// Class containing the isValid method
+class Solution {
+public:
+    // Function to check if the input string has valid parentheses
+    bool isValid(string s) {
+        stack<char> st;  // Stack to store opening brackets
 
-// The main function to convert infix expression to postfix expression
-void infixToPostfix(string s) {
-    stack<char> st; // Stack to hold operators and parentheses
-    string result;  // String to hold the resulting postfix expression
-
-    for (int i = 0; i < s.length(); i++) {
-        char c = s[i];
-
-        // If the scanned character is an operand, add it to the result string
-        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
-            result += c;
-
-        // If the scanned character is an ‘(‘, push it to the stack
-        else if (c == '(')
-            st.push('(');
-
-        // If the scanned character is a ‘)’, pop from stack until an ‘(‘ is encountered
-        else if (c == ')') {
-            while (st.top() != '(') {
-                result += st.top();
+        for (auto it : s) {
+            if (it == '(' || it == '{' || it == '[')
+                st.push(it);  // Push opening brackets to stack
+            else {
+                if (st.empty()) return false;  // No matching opening bracket
+                char ch = st.top();
                 st.pop();
+
+                // Check for matching pair
+                if ((it == ')' && ch == '(') ||
+                    (it == ']' && ch == '[') ||
+                    (it == '}' && ch == '{'))
+                    continue;
+                else
+                    return false;
             }
-            st.pop();  // Pop the ‘(‘ from the stack
         }
-
-        // If an operator is scanned
-        else {
-            while (!st.empty() && prec(s[i]) <= prec(st.top())) {
-                result += st.top();
-                st.pop();
-            }
-            st.push(c);  // Push the current operator to the stack
-        }
+        return st.empty();  // True if all brackets matched
     }
-
-    // Pop all the remaining elements from the stack
-    while (!st.empty()) {
-        result += st.top();
-        st.pop();
-    }
-
-    cout << "Postfix expression: " << result << endl;  // Output the result
-}
+};
 
 int main() {
-    string exp = "(p+q)*(m-n)";  // Infix expression
-    cout << "Infix expression: " << exp << endl;
-    infixToPostfix(exp);  // Convert the infix expression to postfix
+    Solution sol;
+    string s = "()[{}()]";
+
+    if (sol.isValid(s))
+        cout << "True" << endl;
+    else
+        cout << "False" << endl;
+
     return 0;
 }

@@ -52,14 +52,12 @@ void InfixToPostfix(string s){
       while (!st.empty() && Precedence(s[i]) <= Precedence(st.top())){
         result = result + st.top();
         st.pop();
-
       }
       st.push(c);
     }
+}
 
- }
-
- while(!st.empty()){
+while(!st.empty()){
   result = result + st.top();
   st.pop();
  }
