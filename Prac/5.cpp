@@ -1,109 +1,103 @@
 #include <iostream>
-#include <string>
-#include <stack>
-#include <algorithm>
-
-
 using namespace std;
 
-int Precedence (char c){
 
-    if (c == '^') return 3;
-    else if (c == '*' || c == '/') return 2;
-    else if (c == '+' || c== '-') return 1;
-    else return -1;
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+    Node(int val, Node* nextNode) : data(val), next(nextNode) {}
+};
 
-}
+class LinkedList {
+private:
+    Node* head;
 
-bool isOperator (char c){
-    if (c == '*' || c== '^' || c== '/' || c == '+' || c == '-'){
-        return true;
-    }
-    else {
-        return false;
-    }
-}
+public:
+    LinkedList() : head(nullptr) {}
 
-
-
-string InfixToPostfix( string s){
-
-    stack <char> st;
-    string result;
-    
-    for (int i = 0; i < s.size(); i++){
-         char c = s[i];
-
-         if(isalnum(c)){
-
-            result = result +c;
-         }
-         else if(c == '('){
-            st.push(c);
-         }
-         else if( c == ')'){
-            while (!st.empty() && st.top() != '('){
-                result = result + st.top();
-                st.pop();
-            }
-            st.pop();
-         }
-         else if (isOperator(c)){
-            if ( c == '^'){
-                while (!st.empty() && Precedence(st.top()) > Precedence(c)){
-                    result = result + st.top();
-                    st.pop();
-                }
-            }
-            else {
-                while (!st.empty() && Precedence(st.top()) >= Precedence(c)){
-                    result = result + st.top();
-                    st.pop();
-
-                }
-                st.push(c);
-            }
-
-         }
-        
-    }
-
-    while (!st.empty()){
-        result = result + st.top();
-        st.pop();
-    }
-
-    return result;
-}
-
-string InfixToPrefix (string infix){
-
-    reverse(infix.begin() ,infix.end());
-
-    for (int i =0; i < infix.size(); i++ ){
-        if (infix[i] == '('){
-            infix[i] = ')';
+    void traverse() {
+        Node* current = head;
+        while(current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
         }
-        else if ( infix[i] == ')'){
-            infix[i] = '(';
-        }
+        cout << endl;
     }
-string postfix = InfixToPostfix(infix);
-
-reverse(postfix.begin(), postfix.end());
-
-return postfix;
-
-}
-
-int main(){
-
-    string infix = "(p+q)*(c-d)";
-    
-    cout << "Infix:  " << infix << endl;
-    cout << "Prefix: " << InfixToPrefix(infix) << endl;
-
-    return 0;
 
 
-}
+    Node* insert(int val) {
+        Node* newNode = new Node(val, NULL);
+        if(head == nullptr) {
+            head = newNode;
+            return head;
+        }
+        Node* current = head;
+        while(current->next != nullptr) {
+            current = current->next;
+        }
+        current->next = newNode;
+        return head;  
+    }
+
+    Node* insertAtBegininning(int val) {
+        Node* newNode = new Node(val, head);
+        head = newNode;
+        return head;
+    }
+
+    Node* searchForValue(int val) {
+        Node* current = head;
+
+        while(current != nullptr) {
+            if(current->data == val) {
+                return current;
+            }
+            current = current->next;
+        }
+        return nullptr;
+    }
+
+    int findLength() {
+        Node* current = head;
+        int count = 0;
+        while(current != nullptr) {
+            count++;
+            current = current->next;
+        }
+        return count;
+    }
+
+
+    // check if this function works correctly
+    int deleteNode(int val) {
+        if(head == nullptr) {
+            return -1; // list is empty
+        }
+
+        if(val == head -> data) {
+            Node* temp = head;
+            head = head -> next;
+            delete temp;
+            return val;
+        }
+
+        Node* current = head;
+        while(current -> next != nullptr && current->next->next!= nullptr) {
+            if (current->next->data == val) {
+                Node* temp = current->next;
+                current->next = current->next->next;
+                delete temp;
+                return val;
+            }
+        }
+
+        if (current->next != nullptr && current->next->data == val) {
+            Node* temp = current->next;
+            current->next = nullptr;
+            delete temp;
+            return val;
+        }
+
+    }
+};
