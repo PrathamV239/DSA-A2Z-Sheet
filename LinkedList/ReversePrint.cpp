@@ -21,6 +21,9 @@ private:
 public:
   LinkedList() : head(nullptr) {}
 
+  Node* ReversePrint(int val){
+    
+  }
 
 
 

@@ -9,7 +9,6 @@ struct Node {
     
     Node(int val) : data(val), left(nullptr), right(nullptr) {}
 };
-
 class BST {
 private: 
     Node* root;
@@ -75,7 +74,6 @@ public:
         return root;
     }
 };
-
 int main() {
     BST bst;
     

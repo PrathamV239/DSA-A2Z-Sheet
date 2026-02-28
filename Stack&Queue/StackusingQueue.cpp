@@ -11,7 +11,12 @@ private:
 
 public :
   void push(int x){
+
     int size = q.size();
+    // if (q.size() == capacity) {
+    //     cout << "Stack overflow\n";
+    //     return;
+    // }
     q.push(x);
     for (int i = 0; i < size; i++){
       q.push(q.front());
@@ -20,6 +25,11 @@ public :
   }
 
   int pop(){
+
+    if(q.empty()){
+        cout << "Stack is empty\n";
+        return -1;
+    }
     int top = q.front();
     q.pop();
     return top;
